@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>    
+    <title>Compare planners</title>
+    
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
+
+    <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+    <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>    
+
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&libraries=places&language=nl"></script>
+    <script type="text/javascript" src="test_data.js"></script>
+    <script type="text/javascript" src="main.js"></script>
+
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+    <form>
+        <div class="form-row">
+            <label>From</label>
+            <input type="text" name="from" />
+        </div>
+
+        <div class="form-row">
+            <label>To</label>
+            <input type="text" name="to" />
+        </div>
+
+        <div class="form-row">
+            <label>Date</label>
+            <input type="text" name="date" class="datepicker" value="2013-05-28" />
+        </div>
+
+        <div class="form-row">
+            <label>Time</label>
+            <input type="text" name="time" value="12:12" />
+        </div>
+
+
+        <div class="form-row small">
+            <input type="checkbox" checked="checked" name="bus" /><label>bus</label>
+            <input type="checkbox" checked="checked" name="train" /><label>train</label>
+            <input type="checkbox" checked="checked" name="tram" /><label>tram</label>
+            <input type="checkbox" checked="checked" name="metro" /><label>metro</label>
+            <input type="checkbox" checked="checked" name="ferry" /><label>ferry</label>
+            <input type="checkbox" checked="checked" name="car" /><label>car</label>
+            <input type="checkbox" checked="checked" name="bike" /><label>bike</label>
+            <input type="checkbox" checked="checked" name="foot" /><label>foot</label>
+        </div>
+
+
+        <div class="form-row small">
+            <input type="submit" value="Send" />
+        </div>
+    </form>
+
+    <!-- Divs filled from JS -->
+    <div class="relative-routes"></div>
+    <div class="absolute-routes"></div>
+</body>
+</html>

@@ -1,0 +1,71 @@
+form {
+    margin-bottom: 10px;
+    float: left;
+    clear: both;
+}
+
+form .form-row {
+    clear: left;
+}
+
+form .form-row label {
+    float: left;
+    width: 150px;
+}        
+form .form-row.small label {
+    width: 50px;
+}
+
+form .form-row input {
+    float: left;
+}
+
+form .form-row input[type="text"] {
+    width: 200px;
+}        
+
+
+/* RELATIVE ROUTES */
+.relative-routes {
+    clear: left;
+    height: 400px;
+    border: solid 1px red;
+    float: left;
+    margin: 0 20px;
+}
+.relative-routes .column {
+    width: 40px;
+    height: 100%;
+    float: left;
+    border: solid 1px black;
+}
+.relative-routes .column .route {
+    background-color: gray;
+}
+.relative-routes .column .route.provider-ns,
+.relative-routes .column .route.provider-ns-api {
+    background-color: rgb(7, 0, 96);
+}
+.relative-routes .column .route.provider-9292 {
+    background-color: rgb(0, 142, 227);
+}
+.relative-routes .column .route.provider-otp {
+    background-color: rgb(255, 119, 0);
+}
+
+
+
+/* ABSOLUTE ROUTES */
+.absolute-routes .provider {
+    float: left;
+}
+.absolute-routes .route {
+    float: left;
+    width: 150px;
+    margin: 0 5px;
+}
+.absolute-routes .leg {
+    border: solid 1px black;
+    width: 150px;
+    overflow: hidden;
+}
