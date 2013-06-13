@@ -165,7 +165,7 @@ var testData = {
     ]
 },
 {
-        'name': 'ns',
+        'name': 'ns-api',
         'routes': [{
             "arrivalDate": new Date("2013-05-28 15:22:00").getTime() / 1000,
             "departureDate": new Date("2013-05-28 11:20:00").getTime() / 1000,
@@ -330,7 +330,7 @@ var testData = {
     ]
 },
 {
-        'name': 'otp',
+        'name': 'otp-nl',
         'routes': [{
             "arrivalDate": new Date("2013-05-28 15:19:00").getTime() / 1000,
             "departureDate": new Date("2013-05-28 11:41:00").getTime() / 1000,

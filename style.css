@@ -42,14 +42,14 @@ form .form-row input[type="text"] {
 .relative-routes .column .route {
     background-color: gray;
 }
-.relative-routes .column .route.provider-ns,
+
 .relative-routes .column .route.provider-ns-api {
     background-color: rgb(7, 0, 96);
 }
 .relative-routes .column .route.provider-9292 {
     background-color: rgb(0, 142, 227);
 }
-.relative-routes .column .route.provider-otp {
+.relative-routes .column .route.provider-otp-nl {
     background-color: rgb(255, 119, 0);
 }
 

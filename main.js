@@ -88,7 +88,7 @@ function renderResult (providers) {
 
 function getRoutes (options) {
     var params = $.extend({
-        'date': new Date().getTime(),
+        'date': new Date().getTime() / 1000, // To unix TS
         'timeType': 'departure',
         'modes': 'bus,train,tram,metro,ferry,car,bike,foot'
     }, options);
@@ -150,7 +150,7 @@ $(document).ready(function($) {
         });
 
         try {
-            datetime = new Date(date + ' ' + time).getTime();
+            datetime = new Date(date + ' ' + time).getTime() / 1000; // To unix TS
         } catch (err) {
             console.warn('Error parsing date');
         }
