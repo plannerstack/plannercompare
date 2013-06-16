@@ -33,9 +33,9 @@ function renderLeg (leg) {
     var departure = new Date(leg.departure.date * 1000);
     var arrival = new Date(leg.arrival.date * 1000);
     var html = '<div class="leg" style="height: ' + height + 'px;">';
-        html += '<span>' + departure.getHours() + ':' + departure.getMinutes() + ' ' + (leg.departure.name ? leg.departure.name : '') + '</span>';
+        html += '<span>' + (departure.getHours().toString().length === 2 ? departure.getHours().toString() : '0' + departure.getHours().toString()) + ':' + (departure.getMinutes().toString().length === 2 ? departure.getMinutes().toString() : '0' + departure.getMinutes().toString()) + ' ' + (leg.departure.name ? leg.departure.name : '') + '</span>';
         html += '<br/>';
-        html += '<span>' + arrival.getHours() + ':' + arrival.getMinutes() + ' ' + (leg.arrival.name ? leg.arrival.name : '') + '</span>';
+        html += '<span>' + (arrival.getHours().toString().length === 2 ? arrival.getHours().toString() : '0' + arrival.getHours().toString()) + ':' + (arrival.getMinutes().toString().length === 2 ? arrival.getMinutes().toString() : '0' + arrival.getMinutes().toString()) + ' ' + (leg.arrival.name ? leg.arrival.name : '') + '</span>';
     html += '</div>';
 
     return html;
@@ -92,7 +92,7 @@ function getRoutes (options) {
         'timeType': 'departure',
         'modes': 'bus,train,tram,metro,ferry,car,bike,foot'
     }, options);
-    var url = config.base_url + options.from + '/' + options.to;
+    var url = config.base_url;
     $.ajax({
         'url': url,
         'type': 'POST',
@@ -111,9 +111,13 @@ function getRoutes (options) {
 
 
 $(document).ready(function($) {
-    $( ".datepicker" ).datepicker({
-        'dateFormat': "yy-mm-dd"
+    var today = new Date();
+    var datePicker = $( ".datepicker" ).datepicker({
+        'dateFormat': "yy-mm-dd",
+        'defaultDate': new Date()
     });
+    $( ".datepicker" ).datepicker('setDate', today);
+    $('input[name="time"]').val((today.getHours().toString().length === 2 ? today.getHours().toString() : '0' + today.getHours().toString()) + ':' + (today.getMinutes().toString().length === 2 ? today.getMinutes().toString() : '0' + today.getMinutes().toString()));
 
     // Render test data.
     // renderResult(testData.providers);
@@ -150,7 +154,11 @@ $(document).ready(function($) {
         });
 
         try {
-            datetime = new Date(date + ' ' + time).getTime() / 1000; // To unix TS
+            if (date && time) {
+                datetime = Math.round(new Date(date + ' ' + time).getTime() / 1000); // To unix TS
+            } else {
+                datetime = Math.round(new Date().getTime() / 1000); // To unix TS                
+            }
         } catch (err) {
             console.warn('Error parsing date');
         }
