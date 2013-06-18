@@ -226,6 +226,8 @@ $(document).ready(function($) {
 
             window.location.hash = $.param(requestOptions);
 
+            $('.result-link').html('<a href=' + window.location.href + '" target="_blank">Link to this result</a>');
+
             getRoutes(requestOptions);
         } else {
             console.warn('One of the fields are not valid! From:', from, ' To:', to, ' Datetime:', datetime);
