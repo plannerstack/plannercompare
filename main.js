@@ -3,7 +3,37 @@
 //     height: 400, // Height of the relative route div
 //     base_url: 'URL HERE'
 // };
+function getURLParameters () {
+    var hash_url = window.location.hash;
+    var obj = {};
+    var parameters = null;
 
+    if ( hash_url.length > 1 ) {
+        // Chop off the # itself
+        hash_url = unescape(hash_url.substring(1, hash_url.length));
+        parameters = hash_url.split('&');
+    }
+
+    if (parameters) {
+        for (var i = 0; i < parameters.length; i++) {
+            var splitted = parameters[i].split('=');
+            if (splitted.length === 2) {
+                if (splitted[1] === 'true') {
+                    obj[splitted[0]] = true;
+                } else if (splitted[1] === 'false') {
+                    obj[splitted[0]] = false;
+                // } else if (!isNaN(parseInt(splitted[1], 10))) {
+                //     obj[splitted[0]] = parseInt(splitted[1], 10);
+                // } else if (!isNaN(parseFloat(splitted[1]))) {
+                //     obj[splitted[0]] = parseFloat(splitted[1]);
+                } else {
+                    obj[splitted[0]] = splitted[1];
+                }
+            }
+        }
+    }
+    return obj;
+}
 
 function renderProvider (provider) {
     var absoluteRouteDiv = $('.absolute-routes');
@@ -108,23 +138,46 @@ function getRoutes (options) {
 }
 
 
-
-
 $(document).ready(function($) {
-    var today = new Date();
+    // Load values:
+    var options = $.extend({
+        'from': null,
+        'to': null,
+        'arriveBy': true,
+        'startDate': new Date(),
+        'modes': 'bus,train,tram,metro,ferry,car,bike,foot'
+    }, getURLParameters());
+
     var datePicker = $( ".datepicker" ).datepicker({
         'dateFormat': "yy-mm-dd",
         'defaultDate': new Date()
     });
-    $( ".datepicker" ).datepicker('setDate', today);
-    $('input[name="time"]').val((today.getHours().toString().length === 2 ? today.getHours().toString() : '0' + today.getHours().toString()) + ':' + (today.getMinutes().toString().length === 2 ? today.getMinutes().toString() : '0' + today.getMinutes().toString()));
+    $( ".datepicker" ).datepicker('setDate', options.startDate);
+    $('input[name="time"]').val((options.startDate.getHours().toString().length === 2 ? options.startDate.getHours().toString() : '0' + options.startDate.getHours().toString()) + ':' + (options.startDate.getMinutes().toString().length === 2 ? options.startDate.getMinutes().toString() : '0' + options.startDate.getMinutes().toString()));
+
+    if (options.from) {
+        $('input[name="from"]').val(options.from);
+    }
+    if (options.to) {
+        $('input[name="to"]').val(options.to);
+    }
+    if (options.modes) {
+        var splittedModes = options.modes.split(',');
+        $('.form-row.modes input[type="checkbox"]').each(function () {
+            if (splittedModes.indexOf($(this).attr('name')) === -1) {
+                $(this).attr('checked', false);
+            }
+        });
+    }
+
+    // Load google auto completes
+    var fromAutocomplete = new google.maps.places.Autocomplete($('input[name="from"]').get(0));
+    var toAutocomplete = new google.maps.places.Autocomplete($('input[name="to"]').get(0));
 
     // Render test data.
     // renderResult(testData.providers);
 
-    var fromAutocomplete = new google.maps.places.Autocomplete($('input[name="from"]').get(0));
-    var toAutocomplete = new google.maps.places.Autocomplete($('input[name="to"]').get(0));
-
+    // Bind form submit
     $('form').on('submit', function (e) {
         e.preventDefault();
         var from = null,
@@ -164,15 +217,23 @@ $(document).ready(function($) {
         }
 
         if (from && to && datetime) {
-            getRoutes({
+            var requestOptions = {
                 'from': from,
                 'to': to,
                 'date': datetime,
                 'modes': modes.join(',')
-            });
+            };
+
+            window.location.hash = $.param(requestOptions);
+
+            getRoutes(requestOptions);
         } else {
             console.warn('One of the fields are not valid! From:', from, ' To:', to, ' Datetime:', datetime);
         }
         return false;
     });
+
+    if (options.from && options.to) {
+        $('form').trigger('submit');
+    }
 });
